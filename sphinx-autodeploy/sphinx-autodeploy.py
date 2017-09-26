@@ -158,18 +158,26 @@ def iterateFiles(path,temppath):
         content = ""
 
         flag = 1
-        filenames.sort()
-        for filename in filenames:  # 输出文件信息
+
+        oriFilenames = []
+        for filename in filenames:
             if filename == "index.rst": continue
             if filename.startswith("."): continue
             if os.path.splitext(filename)[1] in FILE_TYPE:
+                oriFilenames.append(namePair[filename])
+        oriFilenames.sort()
+
+        for oriFilename in oriFilenames:  # 输出文件信息
+            if oriFilename == "index.rst": continue
+            if oriFilename.startswith("."): continue
+            if os.path.splitext(oriFilename)[1] in FILE_TYPE:
                 if flag == 1:
                     flag = 0
                     content += "\n" \
                                ".. toctree::\n" \
                                "   :maxdepth: 2\n" \
                                "\n"
-                content += "   " + os.path.splitext(filename)[0] + "\n"
+                content += "   " + os.path.splitext(namePair_S[oriFilename])[0] + "\n"
 
         for dirname in dirnames:
             if dirname.startswith("."):
@@ -254,6 +262,8 @@ def mixName(path):
             if os.path.splitext(filename)[1] in FILE_TYPE:
                 newfile = newfile+os.path.splitext(filename)[1]
                 os.rename(oldfile,newfile)
+                namePair[os.path.basename(newfile)] = os.path.basename(oldfile)
+                namePair_S[os.path.basename(oldfile)] = os.path.basename(newfile)
         else:
             os.rename(oldfile,newfile)
             namePair[os.path.basename(newfile)] = os.path.basename(oldfile)
@@ -263,6 +273,8 @@ def mixName(path):
 
 if __name__ == "__main__":
     path = os.getcwd()
+    sys.argv.append("g")
+    sys.argv.append("/Users/innovation_mbp/Git/DocsManager/Learning-Path")
     if (len(sys.argv) < 2):
         msg = "\nerror:" \
               "\n    缺少参数\n" \
