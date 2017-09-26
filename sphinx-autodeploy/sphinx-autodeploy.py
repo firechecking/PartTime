@@ -48,20 +48,20 @@ def createConfig(confpath):
     SERVER_ADDRESS = raw_input("SERVER_ADDRESS:\n")
     config.set("server", "address", SERVER_ADDRESS)
 
-    SERVER_PORT = raw_input("SERVER_PORT:\n")
+    SERVER_PORT = raw_input("SSH_PORT:\n")
     config.set("server", "ssh-port", SERVER_PORT)
 
-    SERVER_USER = raw_input("SERVER_USER:\n")
+    SERVER_USER = raw_input("SSH_USER:\n")
     config.set("server", "ssh-user", SERVER_USER)
 
-    SERVER_PASSWORD = raw_input("SERVER_PASSWORD:\n")
+    SERVER_PASSWORD = raw_input("SSH_PASSWORD:\n")
     config.set("server", "ssh-password", SERVER_PASSWORD)
 
-    APACHE_PATH = raw_input("APACHE_PATH:\n")
-    config.set("server", "apache-path", APACHE_PATH)
+    APACHE_PATH = raw_input("TOMCAT_PATH:\n")
+    config.set("server", "tomcat-path", APACHE_PATH)
 
-    APACHE_PORT = raw_input("APACHE_PORT:\n")
-    config.set("server", "apache-port", APACHE_PORT)
+    APACHE_PORT = raw_input("TOMCAT_PORT:\n")
+    config.set("server", "tomcat-port", APACHE_PORT)
 
     config.write(open(path,"w"))
 
@@ -84,8 +84,8 @@ def getConfig(confpath):
         SERVER_PORT = config.get("server", "ssh-port")
         SERVER_USER = config.get("server", "ssh-user")
         SERVER_PASSWORD = config.get("server", "ssh-password")
-        APACHE_PATH = config.get("server", "apache-path")
-        APACHE_PORT = config.get("server", "apache-port")
+        APACHE_PATH = config.get("server", "tomcat-path")
+        APACHE_PORT = config.get("server", "tomcat-port")
     return config
 
 def changeConf(newpath):
@@ -263,8 +263,6 @@ def mixName(path):
 
 if __name__ == "__main__":
     path = os.getcwd()
-    sys.argv.append("g")
-    sys.argv.append(".")
     if (len(sys.argv) < 2):
         msg = "\nerror:" \
               "\n    缺少参数\n" \
@@ -275,6 +273,7 @@ if __name__ == "__main__":
               "    d: 生成并服务器部署\n" \
               "    c: 清理生成内容"
         exit(msg)
+    TARGET_DIR = "."
     if len(sys.argv) > 2:
         TARGET_DIR = sys.argv[2]
 
